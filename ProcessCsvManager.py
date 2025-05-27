@@ -58,6 +58,20 @@ def ReadCsv():
     global dfVt5
     global dfVt6
 
+    global process1Row
+    global process2Row
+    global process3Row
+    global process4Row
+    global process5Row
+    global process6Row
+
+    process1Row = 0
+    process2Row = 0
+    process3Row = 0
+    process4Row = 0
+    process5Row = 0
+    process6Row = 0
+
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
 

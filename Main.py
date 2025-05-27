@@ -206,6 +206,8 @@ def StopProgram():
     autoRun = False
     root.destroy()
         
+def ErrorPopUp(error):
+    showerror(title='Error Status', message=error)
 
 def StartProgram():
     threading.Thread(target=start).start()
@@ -237,9 +239,12 @@ def start():
         if PiMachineManager.canCompilePI:
             PiMachineManager.CompilePICsv()
             CsvWriter.WriteCsv(PiMachineManager.compiledFrame)
+        else:
+            ErrorPopUp("Error Creating MasterPump Or Running")
 
         EventLogging.logEvent("Creating MasterPump Or Running Successfully")
     except:
+        ErrorPopUp("Error Creating MasterPump Or Running")
         EventLogging.logEvent("Creating MasterPump Or Running Failed")
 
     

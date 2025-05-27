@@ -15,10 +15,13 @@ def CheckPICsv():
     global dfPiNotDone
     global canCompilePI
 
-    pd.set_option('display.max_columns', None)
-    pd.set_option('display.max_rows', None)
+    global piRow
 
     canCompilePI = False
+    piRow = 0
+
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_rows', None)
     
     piDirectory = (r'\\192.168.2.19\ai_team\AI Program\Outputs\PICompiled')
     os.chdir(piDirectory)
@@ -332,3 +335,20 @@ def CompilePICsv():
         compiledFrame = pd.concat([compiledFrame, excelData2], ignore_index=True)
 
     canCompilePI = False
+
+def ResetVariables():
+    global dfPi
+    global dfPiNotDone
+    global tempdfPi
+    global canCompilePI
+    global compiledFrame
+
+    global piRow
+
+    dfPi = ""
+    dfPiNotDone = []
+    tempdfPi = ""
+    canCompilePI = False
+    compiledFrame = ""
+
+    piRow = 0
