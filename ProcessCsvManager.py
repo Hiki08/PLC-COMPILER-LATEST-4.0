@@ -65,13 +65,6 @@ def ReadCsv():
     global process5Row
     global process6Row
 
-    process1Row = 0
-    process2Row = 0
-    process3Row = 0
-    process4Row = 0
-    process5Row = 0
-    process6Row = 0
-
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
 
@@ -3593,3 +3586,83 @@ def CompileCsv():
             excelData["Process 5 Repaired Action"] = repairedProcess
         
     PiMachineManager.compiledFrame = pd.concat([PiMachineManager.compiledFrame, excelData], ignore_index=True)
+
+def ResetVariables():
+    global dfVt1
+    global dfVt2
+    global dfVt3
+    global dfVt4
+    global dfVt5
+    global dfVt6
+
+    global process1Row
+    global process2Row
+    global process3Row
+    global process4Row
+    global process5Row
+    global process6Row
+
+    global tempDfVt1
+    global tempDfVt2
+    global tempDfVt3
+    global tempDfVt4
+    global tempDfVt5
+    global tempDfVt6
+
+    global ngProcess
+        
+    global process1Status
+    global process2Status
+    global process3Status
+    global process4Status
+    global process5Status
+    global process6Status
+    global isRepairedWithNG
+    global piStatus
+
+    global canCompile
+
+    global programRunning
+
+    global excelData
+    global compiledFrame
+
+    dfVt1 = ""
+    dfVt2 = ""
+    dfVt3 = ""
+    dfVt4 = ""
+    dfVt5 = ""
+    dfVt6 = ""
+
+    process1Row = 0
+    process2Row = 0
+    process3Row = 0
+    process4Row = 0
+    process5Row = 0
+    process6Row = 0
+
+    tempDfVt1 = ""
+    tempDfVt2 = ""
+    tempDfVt3 = ""
+    tempDfVt4 = ""
+    tempDfVt5 = ""
+    tempDfVt6 = ""
+
+    ngProcess = ""
+        
+    process1Status = ""
+    process2Status = ""
+    process3Status = ""
+    process4Status = ""
+    process5Status = ""
+    process6Status = ""
+    isRepairedWithNG = False
+    piStatus = ""
+
+    canCompile = False
+
+    programRunning = True
+
+    excelData = ""
+    compiledFrame = ""
+    

@@ -178,7 +178,6 @@ def toggleAutoRun():
         autoRun = False
         setDate()
 
-# %%
 def ToggleAutoRun():
     threading.Thread(target=toggleAutoRun).start()
 
@@ -232,6 +231,8 @@ def start():
     filesreader.ReadAllFiles()
 
     try:
+        #Resetting Variables
+        # PiMachineManager.ResetVariables()
         #Checking For Master Pump Data And Running Data
         PiMachineManager.CheckPICsv()
 
@@ -253,6 +254,7 @@ def start():
         isCsvReaded = False
         while not isCsvReaded:
             try:
+                ProcessCsvManager.ResetVariables()
                 ProcessCsvManager.ReadCsv()
                 isCsvReaded = True
             except:
@@ -272,4 +274,3 @@ def start():
     FinishedLoading()
 
 showGui()
-# %%

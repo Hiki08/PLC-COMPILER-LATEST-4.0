@@ -17,9 +17,6 @@ def CheckPICsv():
 
     global piRow
 
-    canCompilePI = False
-    piRow = 0
-
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
     
