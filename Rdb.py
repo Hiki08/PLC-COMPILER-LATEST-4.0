@@ -570,7 +570,7 @@ class rDB():
 # rdb = rDB()
 # DateAndTimeManager.GetDateToday()
 # rdb.readingYear = int(DateAndTimeManager.yearNow)
-# rdb.ReadCheckSheet("20241209-D", "RDB5200200")
+# rdb.ReadCheckSheet("20241018-F", "RDB5200200")
 # rdb.ReadCheckSheet("3P00015758-3", "RDB4200801")
 # rdb.ReadRDB5200200()
 # # rdb.fileList[0]

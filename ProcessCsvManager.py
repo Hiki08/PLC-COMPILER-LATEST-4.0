@@ -49,6 +49,9 @@ programRunning = True
 excelData = ""
 compiledFrame = ""
 
+previousDate = None
+previousTime = None
+
 # %%
 def ReadCsv():
     global dfVt1
@@ -631,6 +634,19 @@ def CsvOrganize():
             # print("Program Stopped")
             # programRunning = False
             # canCompile = False
+
+def ReadPreviousDateAndTime():
+    global previousDate
+    global previousTime
+
+    previousTempDfPiRow = PiMachineManager.dfPi.iloc[[PiMachineManager.piRow - 1], :]
+
+    previousDate = previousTempDfPiRow["DATE"].values
+
+    previousTime = previousTempDfPiRow["TIME"].values[0]
+    previousTime = datetime2.strptime(previousTime, "%H:%M:%S")
+    previousTime = previousTime + timedelta(seconds=1)
+    previousTime = previousTime.strftime("%H:%M:%S")
 
 def CompileCsv():
     global excelData
@@ -1640,6 +1656,8 @@ def CompileCsv():
                     excelData["Process 6 Repaired Action"] = ngProcess
 
                 elif process5Status == "NG PRESSURE":
+                    ReadPreviousDateAndTime()
+
                     repairedProcess = "REPAIRED AT PROCESS2"
                     ngProcess = "NG PRESSURE AT PROCESS5"
                     process2Row += 1
@@ -1648,8 +1666,8 @@ def CompileCsv():
                     process5Row += 1
                     PiMachineManager.piRow += 1
 
-                    excelData["DATE"] = ngProcess
-                    excelData["TIME"] = ngProcess
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
                     excelData["MODEL CODE"] = ngProcess
                     # excelData["PROCESS S/N"] = ngProcess
                     excelData["S/N"] = ngProcess
@@ -2917,12 +2935,14 @@ def CompileCsv():
             excelData["Process 6 Repaired Action"] = ngProcess
 
         if process5Status == "NG PRESSURE":
+            ReadPreviousDateAndTime()
+
             ngProcess = "NG PRESSURE AT PROCESS5"
             process5Row += 1
             PiMachineManager.piRow += 1
 
-            excelData["DATE"] = ngProcess
-            excelData["TIME"] = ngProcess
+            excelData["DATE"] = previousDate
+            excelData["TIME"] = previousTime
             excelData["MODEL CODE"] = ngProcess
             excelData["PROCESS S/N"] = ngProcess
             excelData["S/N"] = ngProcess

@@ -274,3 +274,5 @@ def start():
     FinishedLoading()
 
 showGui()
+
+# %%
