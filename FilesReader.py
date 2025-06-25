@@ -25,10 +25,9 @@ TENSILEData = []
 
 #RDB
 RDB5200200CheckSheet = []
+HPIQAQCData = []
 RD05200200Data = []
 RDB4200801Data = []
-
-
 
 class filesReader():
     global EM0580106PData
@@ -48,6 +47,7 @@ class filesReader():
     global TENSILEData
 
     global RDB5200200CheckSheet
+    global HPIQAQCData
     global RD05200200Data
     global RDB4200801Data
 
@@ -69,6 +69,7 @@ class filesReader():
     TENSILEData = []
 
     RDB5200200CheckSheet = []
+    HPIQAQCData = []
     RD05200200Data = []
     RDB4200801Data = []
 
@@ -931,6 +932,60 @@ class filesReader():
         for file in CSB6400802Data:
             file.replace('', np.nan, inplace=True)
 
+    def ReadHPIQAQCFiles(self):
+        self.readingYear = self.readingYearStored
+
+        while True:
+            try:
+                vt1Directory = (fr'\\192.168.2.19\quality control\{str(self.readingYear)}')
+
+                for d in os.listdir(vt1Directory):
+                    if "supplier" in d.lower():
+                        vt1Directory = os.path.join(vt1Directory, d)
+                        for d in os.listdir(vt1Directory):
+                            if "monitoring" in d.lower():
+                                vt1Directory = os.path.join(vt1Directory, d)
+
+                os.chdir(vt1Directory)
+
+                xlsxFiles = glob.glob('HPI*.xlsx')
+                xlsFiles = glob.glob('HPI*.xls')
+
+                files = []
+
+                # files = xlsxFiles + xlsFiles
+                for file in xlsxFiles:
+                    files.append(file)
+                for file in xlsFiles:
+                    files.append(file)
+
+                #Checking Each Files In Files;
+                for f in files:
+                    if 'HPI-QA'.lower() in f.lower() or "HPI-QC".lower() in f.lower():
+                        
+                        workbook = CalamineWorkbook.from_path(f)
+
+                        #Reading Possible Sheets
+                        try:
+                            qaQcData = workbook.get_sheet_by_name("HPI-QC01-01").to_python(skip_empty_area=True)
+                            qaQcData = pd.DataFrame(qaQcData[1:], columns=qaQcData[2])
+                        except:
+                            qaQcData = workbook.get_sheet_by_name("SUMMARY").to_python(skip_empty_area=True)
+                            qaQcData = pd.DataFrame(qaQcData[1:], columns=qaQcData[0])
+
+                        HPIQAQCData.append(qaQcData)
+
+                        
+                    
+            except:
+                pass
+
+            if self.readingYear > 2021:
+                self.readingYear -= 1
+            else:
+                # self.fileFinishedReading = True
+                break
+
     def ReadAllFiles(self):
         self.ReadEm2pFiles()
         self.ReadEm3pFiles()
@@ -941,11 +996,14 @@ class filesReader():
         self.ReadRdbCheckSheetFiles()
         self.ReadRdbFiles()
         self.ReadCsbFiles()
+        self.ReadHPIQAQCFiles()
 
 #%%
 # filesreader = filesReader()
-# filesreader.readingYear = 2025
+# filesreader.readingYearStored = 2025
 # filesreader.ReadEm2pFiles()
+
+# EM0580106PData
 
 # print(len(EM0580106PData))
 # print(len(EM0660046PData))
@@ -998,3 +1056,8 @@ class filesReader():
 
 
 #%%
+# filesreader = filesReader()
+# filesreader.readingYearStored = 2025
+# filesreader.ReadHPIQAQCFiles()
+# HPIQAQCData
+# %%

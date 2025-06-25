@@ -715,9 +715,6 @@ def CompileCsv():
         "WATTAGE Middle (W)": PiMachineManager.tempdfPi["WATTAGE Middle (W)"].values,
         "AMPERAGE Middle (A)": PiMachineManager.tempdfPi["AMPERAGE Middle (A)"].values,
         "CLOSED PRESSURE Middle (kPa)": PiMachineManager.tempdfPi["CLOSED PRESSURE Middle (kPa)"].values,
-        "dB(A) 1": PiMachineManager.tempdfPi["dB(A) 1"].values,
-        "dB(A) 2": PiMachineManager.tempdfPi["dB(A) 2"].values,
-        "dB(A) 3": PiMachineManager.tempdfPi["dB(A) 3"].values,
         "VOLTAGE MIN (V)": PiMachineManager.tempdfPi["VOLTAGE MIN (V)"].values,
         "WATTAGE MIN (W)": PiMachineManager.tempdfPi["WATTAGE MIN (W)"].values,
         "CLOSED PRESSURE MIN (kPa)": PiMachineManager.tempdfPi["CLOSED PRESSURE MIN (kPa)"].values,
@@ -1447,6 +1444,8 @@ def CompileCsv():
                     excelData["Process 6 Repaired Action"] = ngProcess
 
                 elif process5Status == "NG PRESSURE":
+                    ReadPreviousDateAndTime()
+
                     ngProcess = "NG PRESSURE AT PROCESS5"
                     process1Row += 1
                     process2Row += 1
@@ -1455,8 +1454,8 @@ def CompileCsv():
                     process5Row += 1
                     PiMachineManager.piRow += 1
 
-                    excelData["DATE"] = ngProcess
-                    excelData["TIME"] = ngProcess
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
                     excelData["MODEL CODE"] = ngProcess
                     # excelData["PROCESS S/N"] = ngProcess
                     excelData["S/N"] = ngProcess
@@ -1468,9 +1467,6 @@ def CompileCsv():
                     excelData["WATTAGE Middle (W)"] = ngProcess
                     excelData["AMPERAGE Middle (A)"] = ngProcess
                     excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-                    excelData["dB(A) 1"] = ngProcess
-                    excelData["dB(A) 2"] = ngProcess
-                    excelData["dB(A) 3"] = ngProcess
                     excelData["VOLTAGE MIN (V)"] = ngProcess
                     excelData["WATTAGE MIN (W)"] = ngProcess
                     excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -1679,9 +1675,6 @@ def CompileCsv():
                     excelData["WATTAGE Middle (W)"] = ngProcess
                     excelData["AMPERAGE Middle (A)"] = ngProcess
                     excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-                    excelData["dB(A) 1"] = ngProcess
-                    excelData["dB(A) 2"] = ngProcess
-                    excelData["dB(A) 3"] = ngProcess
                     excelData["VOLTAGE MIN (V)"] = ngProcess
                     excelData["WATTAGE MIN (W)"] = ngProcess
                     excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -1863,6 +1856,8 @@ def CompileCsv():
                     excelData["Process 6 Repaired Action"] = ngProcess
 
                 elif process5Status == "NG PRESSURE":
+                    ReadPreviousDateAndTime()
+
                     repairedProcess = "REPAIRED AT PROCESS3"
                     ngProcess = "NG PRESSURE AT PROCESS5"
                     process3Row += 1
@@ -1870,8 +1865,8 @@ def CompileCsv():
                     process5Row += 1
                     PiMachineManager.piRow += 1
 
-                    excelData["DATE"] = ngProcess
-                    excelData["TIME"] = ngProcess
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
                     excelData["MODEL CODE"] = ngProcess
                     # excelData["PROCESS S/N"] = ngProcess
                     excelData["S/N"] = ngProcess
@@ -1883,9 +1878,6 @@ def CompileCsv():
                     excelData["WATTAGE Middle (W)"] = ngProcess
                     excelData["AMPERAGE Middle (A)"] = ngProcess
                     excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-                    excelData["dB(A) 1"] = ngProcess
-                    excelData["dB(A) 2"] = ngProcess
-                    excelData["dB(A) 3"] = ngProcess
                     excelData["VOLTAGE MIN (V)"] = ngProcess
                     excelData["WATTAGE MIN (W)"] = ngProcess
                     excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -2059,14 +2051,16 @@ def CompileCsv():
 
             elif process4Status == "Repaired":
                 if process5Status == "NG PRESSURE":
+                    ReadPreviousDateAndTime()
+
                     repairedProcess = "REPAIRED AT PROCESS4"
                     ngProcess = "NG PRESSURE AT PROCESS5"
                     process4Row += 1
                     process5Row += 1
                     PiMachineManager.piRow += 1
 
-                    excelData["DATE"] = ngProcess
-                    excelData["TIME"] = ngProcess
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
                     excelData["MODEL CODE"] = ngProcess
                     # excelData["PROCESS S/N"] = ngProcess
                     excelData["S/N"] = ngProcess
@@ -2078,9 +2072,6 @@ def CompileCsv():
                     excelData["WATTAGE Middle (W)"] = ngProcess
                     excelData["AMPERAGE Middle (A)"] = ngProcess
                     excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-                    excelData["dB(A) 1"] = ngProcess
-                    excelData["dB(A) 2"] = ngProcess
-                    excelData["dB(A) 3"] = ngProcess
                     excelData["VOLTAGE MIN (V)"] = ngProcess
                     excelData["WATTAGE MIN (W)"] = ngProcess
                     excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -2541,9 +2532,6 @@ def CompileCsv():
             excelData["WATTAGE Middle (W)"] = ngProcess
             excelData["AMPERAGE Middle (A)"] = ngProcess
             excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-            excelData["dB(A) 1"] = ngProcess
-            excelData["dB(A) 2"] = ngProcess
-            excelData["dB(A) 3"] = ngProcess
             excelData["VOLTAGE MIN (V)"] = ngProcess
             excelData["WATTAGE MIN (W)"] = ngProcess
             excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -2692,9 +2680,6 @@ def CompileCsv():
             excelData["WATTAGE Middle (W)"] = ngProcess
             excelData["AMPERAGE Middle (A)"] = ngProcess
             excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-            excelData["dB(A) 1"] = ngProcess
-            excelData["dB(A) 2"] = ngProcess
-            excelData["dB(A) 3"] = ngProcess
             excelData["VOLTAGE MIN (V)"] = ngProcess
             excelData["WATTAGE MIN (W)"] = ngProcess
             excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -2805,10 +2790,12 @@ def CompileCsv():
             excelData["Process 6 Repaired Action"] = ngProcess
 
         if process3Status == "NG":
+            ReadPreviousDateAndTime()
+
             ngProcess = "NG AT PROCESS3"
             process3Row += 1
-            excelData["DATE"] = ngProcess
-            excelData["TIME"] = ngProcess
+            excelData["DATE"] = previousDate
+            excelData["TIME"] = previousTime
             excelData["MODEL CODE"] = ngProcess
             excelData["PROCESS S/N"] = ngProcess
             excelData["S/N"] = ngProcess
@@ -2820,9 +2807,6 @@ def CompileCsv():
             excelData["WATTAGE Middle (W)"] = ngProcess
             excelData["AMPERAGE Middle (A)"] = ngProcess
             excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-            excelData["dB(A) 1"] = ngProcess
-            excelData["dB(A) 2"] = ngProcess
-            excelData["dB(A) 3"] = ngProcess
             excelData["VOLTAGE MIN (V)"] = ngProcess
             excelData["WATTAGE MIN (W)"] = ngProcess
             excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -2903,9 +2887,6 @@ def CompileCsv():
             excelData["WATTAGE Middle (W)"] = ngProcess
             excelData["AMPERAGE Middle (A)"] = ngProcess
             excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-            excelData["dB(A) 1"] = ngProcess
-            excelData["dB(A) 2"] = ngProcess
-            excelData["dB(A) 3"] = ngProcess
             excelData["VOLTAGE MIN (V)"] = ngProcess
             excelData["WATTAGE MIN (W)"] = ngProcess
             excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -2944,7 +2925,7 @@ def CompileCsv():
             excelData["DATE"] = previousDate
             excelData["TIME"] = previousTime
             excelData["MODEL CODE"] = ngProcess
-            excelData["PROCESS S/N"] = ngProcess
+            # excelData["PROCESS S/N"] = ngProcess
             excelData["S/N"] = ngProcess
             excelData["PASS/NG"] = ngProcess
             excelData["VOLTAGE MAX (V)"] = ngProcess
@@ -2954,9 +2935,6 @@ def CompileCsv():
             excelData["WATTAGE Middle (W)"] = ngProcess
             excelData["AMPERAGE Middle (A)"] = ngProcess
             excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-            excelData["dB(A) 1"] = ngProcess
-            excelData["dB(A) 2"] = ngProcess
-            excelData["dB(A) 3"] = ngProcess
             excelData["VOLTAGE MIN (V)"] = ngProcess
             excelData["WATTAGE MIN (W)"] = ngProcess
             excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
@@ -3026,9 +3004,6 @@ def CompileCsv():
             excelData["WATTAGE Middle (W)"] = ngProcess
             excelData["AMPERAGE Middle (A)"] = ngProcess
             excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
-            excelData["dB(A) 1"] = ngProcess
-            excelData["dB(A) 2"] = ngProcess
-            excelData["dB(A) 3"] = ngProcess
             excelData["VOLTAGE MIN (V)"] = ngProcess
             excelData["WATTAGE MIN (W)"] = ngProcess
             excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess

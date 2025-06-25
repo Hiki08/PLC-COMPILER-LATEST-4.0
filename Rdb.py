@@ -3,7 +3,6 @@ from Imports import *
 import DateAndTimeManager
 from FilesReader import *
 
-#%%
 class rDB():
     rdbData = ""
 
@@ -174,44 +173,18 @@ class rDB():
                 except:
                     pass
 
-
-
-
-            #Reading HPIQCDATA
-            hpiQcDataDirectory = (fr'\\192.168.2.19\quality control\{self.rdbYearFormat2}\1.Supplier{"'"}s  Relation\B. Monitoring Files')
-            os.chdir(hpiQcDataDirectory)
-
-            xlsxFiles = glob.glob('*.xlsx')
-            xlsFiles = glob.glob('*.xls')
-
-            files = xlsxFiles + xlsFiles
-
             #Checking Each Files In Files;
-            for f in files:
-                if 'HPI-QA'.lower() in f.lower() or "HPI-QC".lower() in f.lower():
-                    
-                    workbook = CalamineWorkbook.from_path(f)
+            for file in HPIQAQCData:
+                try:
+                    file['DATE RECEIVED'] = file['DATE RECEIVED'].astype(str).str.replace("-", "")
+                    file = file[(file["DATE RECEIVED"].isin([str(rdbProdDate)])) & (file["ITEM CODE"].isin([str(rdbCode2)]))]
+                    file = file[file['LOT NUMBER'].str.contains(rdbLotNumber2[:-3], na=False)]
 
-                    #Reading Possible Sheets
-                    try:
-                        hpiQAQCData = workbook.get_sheet_by_name("HPI-QC01-01").to_python(skip_empty_area=True)
-                        hpiQAQCData = pd.DataFrame(hpiQAQCData[1:], columns=hpiQAQCData[2])
-                    except:
-                        hpiQAQCData = workbook.get_sheet_by_name("SUMMARY").to_python(skip_empty_area=True)
-                        hpiQAQCData = pd.DataFrame(hpiQAQCData[1:], columns=hpiQAQCData[0])
-
-                    hpiQAQCData['DATE RECEIVED'] = hpiQAQCData['DATE RECEIVED'].astype(str).str.replace("-", "")
-                    hpiQAQCData = hpiQAQCData[(hpiQAQCData["DATE RECEIVED"].isin([str(rdbProdDate)])) & (hpiQAQCData["ITEM CODE"].isin([str(rdbCode2)]))]
-                    hpiQAQCData = hpiQAQCData[hpiQAQCData['LOT NUMBER'].str.contains(rdbLotNumber2[:-3], na=False)]
-
-
-                    if hpiQAQCData.empty:
-                        print(f"No data found for {f}")
-                    else:
-                        break
-
-            self.rdbLotNumber3 = hpiQAQCData["LOT NUMBER"].values[0]
-            self.rdbNoDataFound = False
+                    self.rdbLotNumber3 = file["LOT NUMBER"].values[0]
+                    self.rdbNoDataFound = False
+                    break
+                except:
+                    pass
 
         else:
             self.rdbLotNumber = lotNumber
@@ -567,14 +540,23 @@ class rDB():
             print(f"Selected RDB Total Maximum 9: {self.rdbTotalMaximum9}")
             
 #%%
-# rdb = rDB()
+#READING ALL FILES USING FILES READER
 # DateAndTimeManager.GetDateToday()
+
+# filesreader = filesReader()
+# filesreader.readingYearStored = DateAndTimeManager.yearNow
+# filesreader.ReadAllFiles()
+
+# rdb = rDB()
 # rdb.readingYear = int(DateAndTimeManager.yearNow)
 # rdb.ReadCheckSheet("20241018-F", "RDB5200200")
+# rdb.GettingData("RDB5200200")
+
+
+
 # rdb.ReadCheckSheet("3P00015758-3", "RDB4200801")
 # rdb.ReadRDB5200200()
 # # rdb.fileList[0]
 # # print(len(rdb.fileList))
-# rdb.GettingData()
 
 # %%
