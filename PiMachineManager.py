@@ -323,7 +323,14 @@ def CompilePICsv():
                     "Process 6 ST" : [processData],
                     "Process 6 Actual Time" : [processData],
                     "Process 6 NG Cause" : [processData],
-                    "Process 6 Repaired Action" : [processData]
+                    "Process 6 Repaired Action" : [processData],
+
+                    "Process 1 SERIAL NO" : [processData],
+                    "Process 2 SERIAL NO" : [processData],
+                    "Process 3 SERIAL NO" : [processData],
+                    "Process 4 SERIAL NO" : [processData],
+                    "Process 5 SERIAL NO" : [processData],
+                    "Process 6 SERIAL NO" : [processData]
                 }
         excelData2 = pd.DataFrame(excelData2)
         compiledFrame = pd.concat([compiledFrame, excelData2], ignore_index=True)

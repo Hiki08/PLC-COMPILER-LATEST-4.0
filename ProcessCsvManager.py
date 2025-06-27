@@ -500,6 +500,7 @@ def CsvOrganize():
             if isVt1Blank == True and isVt2Blank == True and isVt3Blank == True and isVt4Blank == True and isVt5Blank == True and isVt6Blank == True:
                 print("No More To Read")
                 canCompile = False
+
             #Blank At Process2, Process3, Process4, Process5
             elif isVt1Blank == False and isVt2Blank == True and isVt3Blank == True and isVt4Blank == True and isVt5Blank == True and isVt6Blank == True and tempDfVt1["Process 1 Repaired Action"].values[0] == "-":
                 if tempDfVt1["Process 1 NG Cause"].values[0] != "-":
@@ -509,6 +510,7 @@ def CsvOrganize():
                 else:
                     print("Pending In Process 1")
                     canCompile = False
+                    
             #Blank At Process3, Process4, Process 5
             elif isVt1Blank == False and isVt2Blank == False and isVt3Blank == True and isVt4Blank == True and isVt5Blank == True and isVt6Blank == True and tempDfVt2["Process 2 Repaired Action"].values[0] == "-":
                 if tempDfVt2["Process 2 NG Cause"].values[0] != "-":
@@ -965,7 +967,14 @@ def CompileCsv():
         "Process 6 ST": tempDfVt6["Process 6 ST"].values,
         "Process 6 Actual Time": tempDfVt6["Process 6 Actual Time"].values,
         "Process 6 NG Cause": tempDfVt6["Process 6 NG Cause"].values,
-        "Process 6 Repaired Action": tempDfVt6["Process 6 Repaired Action"].values
+        "Process 6 Repaired Action": tempDfVt6["Process 6 Repaired Action"].values,
+
+        "Process 1 SERIAL NO" : tempDfVt1["Process 1 S/N"].values,
+        "Process 2 SERIAL NO" : tempDfVt2["Process 2 S/N"].values,
+        "Process 3 SERIAL NO" : tempDfVt3["Process 3 S/N"].values,
+        "Process 4 SERIAL NO" : tempDfVt4["Process 4 S/N"].values,
+        "Process 5 SERIAL NO" : tempDfVt5["Process 5 S/N"].values,
+        "Process 6 SERIAL NO" : tempDfVt6["Process 6 S/N"].values
     }
     excelData = pd.DataFrame(excelData)
 
@@ -1219,6 +1228,13 @@ def CompileCsv():
         excelData["Process 6 Actual Time"] = piStatus
         excelData["Process 6 NG Cause"] = piStatus
         excelData["Process 6 Repaired Action"] = piStatus
+
+        excelData["Process 1 SERIAL NO"] = piStatus
+        excelData["Process 2 SERIAL NO"] = piStatus
+        excelData["Process 3 SERIAL NO"] = piStatus
+        excelData["Process 4 SERIAL NO"] = piStatus
+        excelData["Process 5 SERIAL NO"] = piStatus
+        excelData["Process 6 SERIAL NO"] = piStatus
     else:
         if process1Status == "Good":
             process1Row += 1
@@ -1237,9 +1253,28 @@ def CompileCsv():
         if isRepairedWithNG:
             if process1Status == "Repaired":
                 if process2Status == "NG":
+                    ReadPreviousDateAndTime()
+
                     ngProcess = "NG AT PROCESS2"
                     process1Row += 1
                     process2Row += 1
+
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
+                    excelData["MODEL CODE"] = ngProcess
+                    excelData["PROCESS S/N"] = tempDfVt2["Process 2 S/N"].values
+                    excelData["S/N"] = ngProcess
+                    excelData["PASS/NG"] = ngProcess
+                    excelData["VOLTAGE MAX (V)"] = ngProcess
+                    excelData["WATTAGE MAX (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE_MAX (kPa)"] = ngProcess
+                    excelData["VOLTAGE Middle (V)"] = ngProcess
+                    excelData["WATTAGE Middle (W)"] = ngProcess
+                    excelData["AMPERAGE Middle (A)"] = ngProcess
+                    excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
+                    excelData["VOLTAGE MIN (V)"] = ngProcess
+                    excelData["WATTAGE MIN (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
 
                     excelData["Process 3 Model Code"] = ngProcess
                     excelData["Process 3 S/N"] = ngProcess
@@ -1346,11 +1381,37 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    # excelData["Process 1 SERIAL NO"] = ngProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    excelData["Process 3 SERIAL NO"] = ngProcess
+                    excelData["Process 4 SERIAL NO"] = ngProcess
+                    excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process3Status == "NG":
+                    ReadPreviousDateAndTime()
+
                     ngProcess = "NG AT PROCESS3"
                     process1Row += 1
                     process2Row += 1
                     process3Row += 1
+
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
+                    excelData["MODEL CODE"] = ngProcess
+                    excelData["PROCESS S/N"] = tempDfVt3["Process 3 S/N"].values
+                    excelData["S/N"] = ngProcess
+                    excelData["PASS/NG"] = ngProcess
+                    excelData["VOLTAGE MAX (V)"] = ngProcess
+                    excelData["WATTAGE MAX (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE_MAX (kPa)"] = ngProcess
+                    excelData["VOLTAGE Middle (V)"] = ngProcess
+                    excelData["WATTAGE Middle (W)"] = ngProcess
+                    excelData["AMPERAGE Middle (A)"] = ngProcess
+                    excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
+                    excelData["VOLTAGE MIN (V)"] = ngProcess
+                    excelData["WATTAGE MIN (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
 
                     excelData["Process 4 Model Code"] = ngProcess
                     excelData["Process 4 S/N"] = ngProcess
@@ -1412,12 +1473,38 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    # excelData["Process 1 SERIAL NO"] = ngProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    excelData["Process 4 SERIAL NO"] = ngProcess
+                    excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process4Status == "NG":
+                    ReadPreviousDateAndTime()
+
                     ngProcess = "NG AT PROCESS4"
                     process1Row += 1
                     process2Row += 1
                     process3Row += 1
                     process4Row += 1
+
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
+                    excelData["MODEL CODE"] = ngProcess
+                    excelData["PROCESS S/N"] = tempDfVt4["Process 4 S/N"].values
+                    excelData["S/N"] = ngProcess
+                    excelData["PASS/NG"] = ngProcess
+                    excelData["VOLTAGE MAX (V)"] = ngProcess
+                    excelData["WATTAGE MAX (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE_MAX (kPa)"] = ngProcess
+                    excelData["VOLTAGE Middle (V)"] = ngProcess
+                    excelData["WATTAGE Middle (W)"] = ngProcess
+                    excelData["AMPERAGE Middle (A)"] = ngProcess
+                    excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
+                    excelData["VOLTAGE MIN (V)"] = ngProcess
+                    excelData["WATTAGE MIN (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
 
                     excelData["Process 5 Model Code"] = ngProcess
                     excelData["Process 5 S/N"] = ngProcess
@@ -1442,6 +1529,13 @@ def CompileCsv():
                     excelData["Process 6 Actual Time"] = ngProcess
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
+
+                    # excelData["Process 1 SERIAL NO"] = ngProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
 
                 elif process5Status == "NG PRESSURE":
                     ReadPreviousDateAndTime()
@@ -1482,6 +1576,14 @@ def CompileCsv():
                     excelData["Process 6 Actual Time"] = ngProcess
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
+
+                    # excelData["Process 1 SERIAL NO"] = ngProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process5Status == "NG":
                     ngProcess = "NG AT PROCESS5"
                     process1Row += 1
@@ -1503,6 +1605,13 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    # excelData["Process 1 SERIAL NO"] = ngProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process6Status == "NG":
                     ngProcess = "NG AT PROCESS6"
                     process1Row += 1
@@ -1515,10 +1624,29 @@ def CompileCsv():
 
             elif process2Status == "Repaired":
                 if process3Status == "NG":
+                    ReadPreviousDateAndTime()
+
                     repairedProcess = "REPAIRED AT PROCESS2"
                     ngProcess = "NG AT PROCESS3"
                     process2Row += 1
                     process3Row += 1
+
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
+                    excelData["MODEL CODE"] = ngProcess
+                    excelData["PROCESS S/N"] = tempDfVt3["Process 3 S/N"].values
+                    excelData["S/N"] = ngProcess
+                    excelData["PASS/NG"] = ngProcess
+                    excelData["VOLTAGE MAX (V)"] = ngProcess
+                    excelData["WATTAGE MAX (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE_MAX (kPa)"] = ngProcess
+                    excelData["VOLTAGE Middle (V)"] = ngProcess
+                    excelData["WATTAGE Middle (W)"] = ngProcess
+                    excelData["AMPERAGE Middle (A)"] = ngProcess
+                    excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
+                    excelData["VOLTAGE MIN (V)"] = ngProcess
+                    excelData["WATTAGE MIN (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
 
                     excelData["Process 1 Model Code"] = repairedProcess
                     excelData["Process 1 S/N"] = repairedProcess
@@ -1599,13 +1727,39 @@ def CompileCsv():
                     excelData["Process 6 Actual Time"] = ngProcess
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
+
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    excelData["Process 4 SERIAL NO"] = ngProcess
+                    excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
                     
                 elif process4Status == "NG":
+                    ReadPreviousDateAndTime()
+
                     repairedProcess = "REPAIRED AT PROCESS2"
                     ngProcess = "NG AT PROCESS4"
                     process2Row += 1
                     process3Row += 1
                     process4Row += 1
+
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
+                    excelData["MODEL CODE"] = ngProcess
+                    excelData["PROCESS S/N"] = tempDfVt4["Process 4 S/N"].values
+                    excelData["S/N"] = ngProcess
+                    excelData["PASS/NG"] = ngProcess
+                    excelData["VOLTAGE MAX (V)"] = ngProcess
+                    excelData["WATTAGE MAX (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE_MAX (kPa)"] = ngProcess
+                    excelData["VOLTAGE Middle (V)"] = ngProcess
+                    excelData["WATTAGE Middle (W)"] = ngProcess
+                    excelData["AMPERAGE Middle (A)"] = ngProcess
+                    excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
+                    excelData["VOLTAGE MIN (V)"] = ngProcess
+                    excelData["WATTAGE MIN (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
 
                     excelData["Process 1 Model Code"] = repairedProcess
                     excelData["Process 1 S/N"] = repairedProcess
@@ -1651,6 +1805,13 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process5Status == "NG PRESSURE":
                     ReadPreviousDateAndTime()
 
@@ -1665,7 +1826,7 @@ def CompileCsv():
                     excelData["DATE"] = previousDate
                     excelData["TIME"] = previousTime
                     excelData["MODEL CODE"] = ngProcess
-                    # excelData["PROCESS S/N"] = ngProcess
+                    # excelData["PROCESS S/N"] = tempDfVt5["Process 5 S/N"].values
                     excelData["S/N"] = ngProcess
                     excelData["PASS/NG"] = ngProcess
                     excelData["VOLTAGE MAX (V)"] = ngProcess
@@ -1711,6 +1872,13 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process5Status == "NG":
                     repairedProcess = "REPAIRED AT PROCESS2"
                     ngProcess = "NG AT PROCESS5"
@@ -1752,6 +1920,13 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process6Status == "NG":
                     repairedProcess = "REPAIRED AT PROCESS2"
                     
@@ -1782,12 +1957,38 @@ def CompileCsv():
                     excelData["Process 1 NG Cause"] = repairedProcess
                     excelData["Process 1 Repaired Action"] = repairedProcess  
 
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    # excelData["Process 2 SERIAL NO"] = ngProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    # excelData["Process 6 SERIAL NO"] = ngProcess
+
             elif process3Status == "Repaired":
                 if process4Status == "NG":
+                    ReadPreviousDateAndTime()
+
                     repairedProcess = "REPAIRED AT PROCESS3"
                     ngProcess = "NG AT PROCESS4"
                     process3Row += 1
                     process4Row += 1
+
+                    excelData["DATE"] = previousDate
+                    excelData["TIME"] = previousTime
+                    excelData["MODEL CODE"] = ngProcess
+                    excelData["PROCESS S/N"] = tempDfVt4["Process 4 S/N"].values
+                    excelData["S/N"] = ngProcess
+                    excelData["PASS/NG"] = ngProcess
+                    excelData["VOLTAGE MAX (V)"] = ngProcess
+                    excelData["WATTAGE MAX (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE_MAX (kPa)"] = ngProcess
+                    excelData["VOLTAGE Middle (V)"] = ngProcess
+                    excelData["WATTAGE Middle (W)"] = ngProcess
+                    excelData["AMPERAGE Middle (A)"] = ngProcess
+                    excelData["CLOSED PRESSURE Middle (kPa)"] = ngProcess
+                    excelData["VOLTAGE MIN (V)"] = ngProcess
+                    excelData["WATTAGE MIN (W)"] = ngProcess
+                    excelData["CLOSED PRESSURE MIN (kPa)"] = ngProcess
 
                     excelData["Process 1 Model Code"] = repairedProcess
                     excelData["Process 1 S/N"] = repairedProcess
@@ -1855,6 +2056,13 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process5Status == "NG PRESSURE":
                     ReadPreviousDateAndTime()
 
@@ -1936,6 +2144,13 @@ def CompileCsv():
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
 
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
+
                 elif process5Status == "NG":
                     repairedProcess = "REPAIRED AT PROCESS3"
                     ngProcess = "NG AT PROCESS5"
@@ -1997,6 +2212,13 @@ def CompileCsv():
                     excelData["Process 6 Actual Time"] = ngProcess
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
+
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
 
                 elif process6Status == "NG":
                     repairedProcess = "REPAIRED AT PROCESS3"
@@ -2048,6 +2270,13 @@ def CompileCsv():
                     excelData["Process 2 Actual Time"] = repairedProcess
                     excelData["Process 2 NG Cause"] = repairedProcess
                     excelData["Process 2 Repaired Action"] = repairedProcess
+
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    # excelData["Process 3 SERIAL NO"] = ngProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    # excelData["Process 6 SERIAL NO"] = ngProcess
 
             elif process4Status == "Repaired":
                 if process5Status == "NG PRESSURE":
@@ -2118,50 +2347,50 @@ def CompileCsv():
                     excelData["Process 2 NG Cause"] = repairedProcess
                     excelData["Process 2 Repaired Action"] = repairedProcess
 
-                    excelData["Process 3 Model Code"] = ngProcess
-                    excelData["Process 3 S/N"] = ngProcess
-                    excelData["Process 3 ID"] = ngProcess
-                    excelData["Process 3 NAME"] = ngProcess
-                    excelData["Process 3 Regular/Contractual"] = ngProcess
-                    excelData["Process 3 Frame Gasket"] = ngProcess
-                    excelData["Process 3 Frame Gasket Lot No"] = ngProcess
-                    excelData["Process 3 Casing Block"] = ngProcess
-                    excelData["Process 3 Casing Block Lot No"] = ngProcess
-                    excelData["Process 3 Casing Block Inspection 1 Average Data"] = ngProcess
-                    excelData["Process 3 Casing Block Inspection 1 Minimum Data"] = ngProcess
-                    excelData["Process 3 Casing Block Inspection 1 Maximum Data"] = ngProcess
-                    excelData["Process 3 Casing Gasket"] = ngProcess
-                    excelData["Process 3 Casing Gasket Lot No"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 1"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 1 Lot No"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 2"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 2 Lot No"] = ngProcess
-                    excelData["Process 3 Ball Cushion"] = ngProcess
-                    excelData["Process 3 Ball Cushion Lot No"] = ngProcess
-                    excelData["Process 3 Frame Cover"] = ngProcess
-                    excelData["Process 3 Frame Cover Lot No"] = ngProcess
-                    excelData["Process 3 Partition Board"] = ngProcess
-                    excelData["Process 3 Partition Board Lot No"] = ngProcess
-                    excelData["Process 3 Built In Tube 1"] = ngProcess
-                    excelData["Process 3 Built In Tube 1 Lot No"] = ngProcess
-                    excelData["Process 3 Built In Tube 2"] = ngProcess
-                    excelData["Process 3 Built In Tube 2 Lot No"] = ngProcess
-                    excelData["Process 3 Head Cover"] = ngProcess
-                    excelData["Process 3 Head Cover Lot No"] = ngProcess
-                    excelData["Process 3 Casing Packing"] = ngProcess
-                    excelData["Process 3 Casing Packing Lot No"] = ngProcess
-                    excelData["Process 3 M4x12 Screw"] = ngProcess
-                    excelData["Process 3 M4x12 Screw Lot No"] = ngProcess
-                    excelData["Process 3 Csb L"] = ngProcess
-                    excelData["Process 3 Csb L Lot No"] = ngProcess
-                    excelData["Process 3 Csb R"] = ngProcess
-                    excelData["Process 3 Csb R Lot No"] = ngProcess
-                    excelData["Process 3 Head Packing"] = ngProcess
-                    excelData["Process 3 Head Packing Lot No"] = ngProcess
-                    excelData["Process 3 ST"] = ngProcess
-                    excelData["Process 3 Actual Time"] = ngProcess
-                    excelData["Process 3 NG Cause"] = ngProcess
-                    excelData["Process 3 Repaired Action"] = ngProcess
+                    excelData["Process 3 Model Code"] = repairedProcess
+                    excelData["Process 3 S/N"] = repairedProcess
+                    excelData["Process 3 ID"] = repairedProcess
+                    excelData["Process 3 NAME"] = repairedProcess
+                    excelData["Process 3 Regular/Contractual"] = repairedProcess
+                    excelData["Process 3 Frame Gasket"] = repairedProcess
+                    excelData["Process 3 Frame Gasket Lot No"] = repairedProcess
+                    excelData["Process 3 Casing Block"] = repairedProcess
+                    excelData["Process 3 Casing Block Lot No"] = repairedProcess
+                    excelData["Process 3 Casing Block Inspection 1 Average Data"] = repairedProcess
+                    excelData["Process 3 Casing Block Inspection 1 Minimum Data"] = repairedProcess
+                    excelData["Process 3 Casing Block Inspection 1 Maximum Data"] = repairedProcess
+                    excelData["Process 3 Casing Gasket"] = repairedProcess
+                    excelData["Process 3 Casing Gasket Lot No"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 1"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 1 Lot No"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 2"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 2 Lot No"] = repairedProcess
+                    excelData["Process 3 Ball Cushion"] = repairedProcess
+                    excelData["Process 3 Ball Cushion Lot No"] = repairedProcess
+                    excelData["Process 3 Frame Cover"] = repairedProcess
+                    excelData["Process 3 Frame Cover Lot No"] = repairedProcess
+                    excelData["Process 3 Partition Board"] = repairedProcess
+                    excelData["Process 3 Partition Board Lot No"] = repairedProcess
+                    excelData["Process 3 Built In Tube 1"] = repairedProcess
+                    excelData["Process 3 Built In Tube 1 Lot No"] = repairedProcess
+                    excelData["Process 3 Built In Tube 2"] = repairedProcess
+                    excelData["Process 3 Built In Tube 2 Lot No"] = repairedProcess
+                    excelData["Process 3 Head Cover"] = repairedProcess
+                    excelData["Process 3 Head Cover Lot No"] = repairedProcess
+                    excelData["Process 3 Casing Packing"] = repairedProcess
+                    excelData["Process 3 Casing Packing Lot No"] = repairedProcess
+                    excelData["Process 3 M4x12 Screw"] = repairedProcess
+                    excelData["Process 3 M4x12 Screw Lot No"] = repairedProcess
+                    excelData["Process 3 Csb L"] = repairedProcess
+                    excelData["Process 3 Csb L Lot No"] = repairedProcess
+                    excelData["Process 3 Csb R"] = repairedProcess
+                    excelData["Process 3 Csb R Lot No"] = repairedProcess
+                    excelData["Process 3 Head Packing"] = repairedProcess
+                    excelData["Process 3 Head Packing Lot No"] = repairedProcess
+                    excelData["Process 3 ST"] = repairedProcess
+                    excelData["Process 3 Actual Time"] = repairedProcess
+                    excelData["Process 3 NG Cause"] = repairedProcess
+                    excelData["Process 3 Repaired Action"] = repairedProcess
 
                     excelData["Process 6 Model Code"] = ngProcess
                     excelData["Process 6 S/N"] = ngProcess
@@ -2174,6 +2403,13 @@ def CompileCsv():
                     excelData["Process 6 Actual Time"] = ngProcess
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
+
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    excelData["Process 3 SERIAL NO"] = repairedProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
 
                 elif process5Status == "NG":
                     repairedProcess = "REPAIRED AT PROCESS4"
@@ -2224,50 +2460,50 @@ def CompileCsv():
                     excelData["Process 2 NG Cause"] = repairedProcess
                     excelData["Process 2 Repaired Action"] = repairedProcess
 
-                    excelData["Process 3 Model Code"] = ngProcess
-                    excelData["Process 3 S/N"] = ngProcess
-                    excelData["Process 3 ID"] = ngProcess
-                    excelData["Process 3 NAME"] = ngProcess
-                    excelData["Process 3 Regular/Contractual"] = ngProcess
-                    excelData["Process 3 Frame Gasket"] = ngProcess
-                    excelData["Process 3 Frame Gasket Lot No"] = ngProcess
-                    excelData["Process 3 Casing Block"] = ngProcess
-                    excelData["Process 3 Casing Block Lot No"] = ngProcess
-                    excelData["Process 3 Casing Block Inspection 1 Average Data"] = ngProcess
-                    excelData["Process 3 Casing Block Inspection 1 Minimum Data"] = ngProcess
-                    excelData["Process 3 Casing Block Inspection 1 Maximum Data"] = ngProcess
-                    excelData["Process 3 Casing Gasket"] = ngProcess
-                    excelData["Process 3 Casing Gasket Lot No"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 1"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 1 Lot No"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 2"] = ngProcess
-                    excelData["Process 3 M4x16 Screw 2 Lot No"] = ngProcess
-                    excelData["Process 3 Ball Cushion"] = ngProcess
-                    excelData["Process 3 Ball Cushion Lot No"] = ngProcess
-                    excelData["Process 3 Frame Cover"] = ngProcess
-                    excelData["Process 3 Frame Cover Lot No"] = ngProcess
-                    excelData["Process 3 Partition Board"] = ngProcess
-                    excelData["Process 3 Partition Board Lot No"] = ngProcess
-                    excelData["Process 3 Built In Tube 1"] = ngProcess
-                    excelData["Process 3 Built In Tube 1 Lot No"] = ngProcess
-                    excelData["Process 3 Built In Tube 2"] = ngProcess
-                    excelData["Process 3 Built In Tube 2 Lot No"] = ngProcess
-                    excelData["Process 3 Head Cover"] = ngProcess
-                    excelData["Process 3 Head Cover Lot No"] = ngProcess
-                    excelData["Process 3 Casing Packing"] = ngProcess
-                    excelData["Process 3 Casing Packing Lot No"] = ngProcess
-                    excelData["Process 3 M4x12 Screw"] = ngProcess
-                    excelData["Process 3 M4x12 Screw Lot No"] = ngProcess
-                    excelData["Process 3 Csb L"] = ngProcess
-                    excelData["Process 3 Csb L Lot No"] = ngProcess
-                    excelData["Process 3 Csb R"] = ngProcess
-                    excelData["Process 3 Csb R Lot No"] = ngProcess
-                    excelData["Process 3 Head Packing"] = ngProcess
-                    excelData["Process 3 Head Packing Lot No"] = ngProcess
-                    excelData["Process 3 ST"] = ngProcess
-                    excelData["Process 3 Actual Time"] = ngProcess
-                    excelData["Process 3 NG Cause"] = ngProcess
-                    excelData["Process 3 Repaired Action"] = ngProcess
+                    excelData["Process 3 Model Code"] = repairedProcess
+                    excelData["Process 3 S/N"] = repairedProcess
+                    excelData["Process 3 ID"] = repairedProcess
+                    excelData["Process 3 NAME"] = repairedProcess
+                    excelData["Process 3 Regular/Contractual"] = repairedProcess
+                    excelData["Process 3 Frame Gasket"] = repairedProcess
+                    excelData["Process 3 Frame Gasket Lot No"] = repairedProcess
+                    excelData["Process 3 Casing Block"] = repairedProcess
+                    excelData["Process 3 Casing Block Lot No"] = repairedProcess
+                    excelData["Process 3 Casing Block Inspection 1 Average Data"] = repairedProcess
+                    excelData["Process 3 Casing Block Inspection 1 Minimum Data"] = repairedProcess
+                    excelData["Process 3 Casing Block Inspection 1 Maximum Data"] = repairedProcess
+                    excelData["Process 3 Casing Gasket"] = repairedProcess
+                    excelData["Process 3 Casing Gasket Lot No"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 1"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 1 Lot No"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 2"] = repairedProcess
+                    excelData["Process 3 M4x16 Screw 2 Lot No"] = repairedProcess
+                    excelData["Process 3 Ball Cushion"] = repairedProcess
+                    excelData["Process 3 Ball Cushion Lot No"] = repairedProcess
+                    excelData["Process 3 Frame Cover"] = repairedProcess
+                    excelData["Process 3 Frame Cover Lot No"] = repairedProcess
+                    excelData["Process 3 Partition Board"] = repairedProcess
+                    excelData["Process 3 Partition Board Lot No"] = repairedProcess
+                    excelData["Process 3 Built In Tube 1"] = repairedProcess
+                    excelData["Process 3 Built In Tube 1 Lot No"] = repairedProcess
+                    excelData["Process 3 Built In Tube 2"] = repairedProcess
+                    excelData["Process 3 Built In Tube 2 Lot No"] = repairedProcess
+                    excelData["Process 3 Head Cover"] = repairedProcess
+                    excelData["Process 3 Head Cover Lot No"] = repairedProcess
+                    excelData["Process 3 Casing Packing"] = repairedProcess
+                    excelData["Process 3 Casing Packing Lot No"] = repairedProcess
+                    excelData["Process 3 M4x12 Screw"] = repairedProcess
+                    excelData["Process 3 M4x12 Screw Lot No"] = repairedProcess
+                    excelData["Process 3 Csb L"] = repairedProcess
+                    excelData["Process 3 Csb L Lot No"] = repairedProcess
+                    excelData["Process 3 Csb R"] = repairedProcess
+                    excelData["Process 3 Csb R Lot No"] = repairedProcess
+                    excelData["Process 3 Head Packing"] = repairedProcess
+                    excelData["Process 3 Head Packing Lot No"] = repairedProcess
+                    excelData["Process 3 ST"] = repairedProcess
+                    excelData["Process 3 Actual Time"] = repairedProcess
+                    excelData["Process 3 NG Cause"] = repairedProcess
+                    excelData["Process 3 Repaired Action"] = repairedProcess
 
                     excelData["Process 6 Model Code"] = ngProcess
                     excelData["Process 6 S/N"] = ngProcess
@@ -2280,6 +2516,13 @@ def CompileCsv():
                     excelData["Process 6 Actual Time"] = ngProcess
                     excelData["Process 6 NG Cause"] = ngProcess
                     excelData["Process 6 Repaired Action"] = ngProcess
+
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    excelData["Process 3 SERIAL NO"] = repairedProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    excelData["Process 6 SERIAL NO"] = ngProcess
                     
                 elif process6Status == "NG":
                     repairedProcess = "REPAIRED AT PROCESS4"
@@ -2374,6 +2617,13 @@ def CompileCsv():
                     excelData["Process 3 Actual Time"] = repairedProcess
                     excelData["Process 3 NG Cause"] = repairedProcess
                     excelData["Process 3 Repaired Action"] = repairedProcess
+
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    excelData["Process 3 SERIAL NO"] = repairedProcess
+                    # excelData["Process 4 SERIAL NO"] = ngProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    # excelData["Process 6 SERIAL NO"] = ngProcess
                     
             elif process5Status == "Repaired":
                 if process6Status == "NG":
@@ -2504,6 +2754,13 @@ def CompileCsv():
                     excelData["Process 4 Actual Time"] = repairedProcess
                     excelData["Process 4 NG Cause"] = repairedProcess
                     excelData["Process 4 Repaired Action"] = repairedProcess
+
+                    excelData["Process 1 SERIAL NO"] = repairedProcess
+                    excelData["Process 2 SERIAL NO"] = repairedProcess
+                    excelData["Process 3 SERIAL NO"] = repairedProcess
+                    excelData["Process 4 SERIAL NO"] = repairedProcess
+                    # excelData["Process 5 SERIAL NO"] = ngProcess
+                    # excelData["Process 6 SERIAL NO"] = ngProcess
                 
             # elif process6Status == "Repaired":
             #     pass
@@ -2516,13 +2773,15 @@ def CompileCsv():
             process6Status = ""
 
         if process1Status == "NG":
+            ReadPreviousDateAndTime()
+
             ngProcess = "NG AT PROCESS1"
             process1Row += 1
 
-            excelData["DATE"] = ngProcess
-            excelData["TIME"] = ngProcess
+            excelData["DATE"] = previousDate
+            excelData["TIME"] = previousTime
             excelData["MODEL CODE"] = ngProcess
-            excelData["PROCESS S/N"] = ngProcess
+            excelData["PROCESS S/N"] = tempDfVt1["Process 1 S/N"].values
             excelData["S/N"] = ngProcess
             excelData["PASS/NG"] = ngProcess
             excelData["VOLTAGE MAX (V)"] = ngProcess
@@ -2662,15 +2921,25 @@ def CompileCsv():
             excelData["Process 6 Actual Time"] = ngProcess
             excelData["Process 6 NG Cause"] = ngProcess
             excelData["Process 6 Repaired Action"] = ngProcess 
+
+            # excelData["Process 1 SERIAL NO"] = ngProcess
+            excelData["Process 2 SERIAL NO"] = ngProcess
+            excelData["Process 3 SERIAL NO"] = ngProcess
+            excelData["Process 4 SERIAL NO"] = ngProcess
+            excelData["Process 5 SERIAL NO"] = ngProcess
+            excelData["Process 6 SERIAL NO"] = ngProcess
             
         if process2Status == "NG":
+            ReadPreviousDateAndTime()
+
             print("ng")
             ngProcess = "NG AT PROCESS2"
             process2Row += 1
-            excelData["DATE"] = ngProcess
-            excelData["TIME"] = ngProcess
+
+            excelData["DATE"] = previousDate
+            excelData["TIME"] = previousTime
             excelData["MODEL CODE"] = ngProcess
-            excelData["PROCESS S/N"] = ngProcess
+            excelData["PROCESS S/N"] = tempDfVt2["Process 2 S/N"].values
             excelData["S/N"] = ngProcess
             excelData["PASS/NG"] = ngProcess
             excelData["VOLTAGE MAX (V)"] = ngProcess
@@ -2789,15 +3058,23 @@ def CompileCsv():
             excelData["Process 6 NG Cause"] = ngProcess
             excelData["Process 6 Repaired Action"] = ngProcess
 
+            # excelData["Process 1 SERIAL NO"] = ngProcess
+            # excelData["Process 2 SERIAL NO"] = ngProcess
+            excelData["Process 3 SERIAL NO"] = ngProcess
+            excelData["Process 4 SERIAL NO"] = ngProcess
+            excelData["Process 5 SERIAL NO"] = ngProcess
+            excelData["Process 6 SERIAL NO"] = ngProcess
+
         if process3Status == "NG":
             ReadPreviousDateAndTime()
 
             ngProcess = "NG AT PROCESS3"
             process3Row += 1
+
             excelData["DATE"] = previousDate
             excelData["TIME"] = previousTime
             excelData["MODEL CODE"] = ngProcess
-            excelData["PROCESS S/N"] = ngProcess
+            excelData["PROCESS S/N"] = tempDfVt3["Process 3 S/N"].values
             excelData["S/N"] = ngProcess
             excelData["PASS/NG"] = ngProcess
             excelData["VOLTAGE MAX (V)"] = ngProcess
@@ -2871,13 +3148,23 @@ def CompileCsv():
             excelData["Process 6 NG Cause"] = ngProcess
             excelData["Process 6 Repaired Action"] = ngProcess
 
+            # excelData["Process 1 SERIAL NO"] = ngProcess
+            # excelData["Process 2 SERIAL NO"] = ngProcess
+            # excelData["Process 3 SERIAL NO"] = ngProcess
+            excelData["Process 4 SERIAL NO"] = ngProcess
+            excelData["Process 5 SERIAL NO"] = ngProcess
+            excelData["Process 6 SERIAL NO"] = ngProcess
+
         if process4Status == "NG":
+            ReadPreviousDateAndTime()
+
             ngProcess = "NG AT PROCESS4"
             process4Row += 1
-            excelData["DATE"] = ngProcess
-            excelData["TIME"] = ngProcess
+
+            excelData["DATE"] = previousDate
+            excelData["TIME"] = previousTime
             excelData["MODEL CODE"] = ngProcess
-            excelData["PROCESS S/N"] = ngProcess
+            excelData["PROCESS S/N"] = tempDfVt4["Process 4 S/N"].values
             excelData["S/N"] = ngProcess
             excelData["PASS/NG"] = ngProcess
             excelData["VOLTAGE MAX (V)"] = ngProcess
@@ -2915,6 +3202,13 @@ def CompileCsv():
             excelData["Process 6 NG Cause"] = ngProcess
             excelData["Process 6 Repaired Action"] = ngProcess
 
+            # excelData["Process 1 SERIAL NO"] = ngProcess
+            # excelData["Process 2 SERIAL NO"] = ngProcess
+            # excelData["Process 3 SERIAL NO"] = ngProcess
+            # excelData["Process 4 SERIAL NO"] = ngProcess
+            excelData["Process 5 SERIAL NO"] = ngProcess
+            excelData["Process 6 SERIAL NO"] = ngProcess
+
         if process5Status == "NG PRESSURE":
             ReadPreviousDateAndTime()
 
@@ -2950,6 +3244,13 @@ def CompileCsv():
             excelData["Process 6 Actual Time"] = ngProcess
             excelData["Process 6 NG Cause"] = ngProcess
             excelData["Process 6 Repaired Action"] = ngProcess
+
+            # excelData["Process 1 SERIAL NO"] = ngProcess
+            # excelData["Process 2 SERIAL NO"] = ngProcess
+            # excelData["Process 3 SERIAL NO"] = ngProcess
+            # excelData["Process 4 SERIAL NO"] = ngProcess
+            # excelData["Process 5 SERIAL NO"] = ngProcess
+            excelData["Process 6 SERIAL NO"] = ngProcess
 
         if process5Status == "NG":
             ngProcess = "NG AT PROCESS5"
@@ -2987,6 +3288,13 @@ def CompileCsv():
             excelData["Process 6 Actual Time"] = ngProcess
             excelData["Process 6 NG Cause"] = ngProcess
             excelData["Process 6 Repaired Action"] = ngProcess
+
+            # excelData["Process 1 SERIAL NO"] = ngProcess
+            # excelData["Process 2 SERIAL NO"] = ngProcess
+            # excelData["Process 3 SERIAL NO"] = ngProcess
+            # excelData["Process 4 SERIAL NO"] = ngProcess
+            # excelData["Process 5 SERIAL NO"] = ngProcess
+            excelData["Process 6 SERIAL NO"] = ngProcess
 
         if process6Status == "NG":
             ngProcess = "NG AT PROCESS6"
@@ -3087,6 +3395,13 @@ def CompileCsv():
             excelData["Process 1 NG Cause"] = repairedProcess
             excelData["Process 1 Repaired Action"] = repairedProcess  
 
+            excelData["Process 1 SERIAL NO"] = repairedProcess
+            # excelData["Process 2 SERIAL NO"] = repairedProcess
+            # excelData["Process 3 SERIAL NO"] = repairedProcess
+            # excelData["Process 4 SERIAL NO"] = repairedProcess
+            # excelData["Process 5 SERIAL NO"] = repairedProcess
+            # excelData["Process 6 SERIAL NO"] = repairedProcess
+
         if process3Status == "Repaired":
             repairedProcess = "REPAIRED AT PROCESS3"
             process3Row += 1
@@ -3156,6 +3471,13 @@ def CompileCsv():
             excelData["Process 2 Actual Time"] = repairedProcess
             excelData["Process 2 NG Cause"] = repairedProcess
             excelData["Process 2 Repaired Action"] = repairedProcess
+
+            excelData["Process 1 SERIAL NO"] = repairedProcess
+            excelData["Process 2 SERIAL NO"] = repairedProcess
+            # excelData["Process 3 SERIAL NO"] = repairedProcess
+            # excelData["Process 4 SERIAL NO"] = repairedProcess
+            # excelData["Process 5 SERIAL NO"] = repairedProcess
+            # excelData["Process 6 SERIAL NO"] = repairedProcess
 
         if process4Status == "Repaired":
             repairedProcess = "REPAIRED AT PROCESS4"
@@ -3270,6 +3592,13 @@ def CompileCsv():
             excelData["Process 3 Actual Time"] = repairedProcess
             excelData["Process 3 NG Cause"] = repairedProcess
             excelData["Process 3 Repaired Action"] = repairedProcess
+
+            excelData["Process 1 SERIAL NO"] = repairedProcess
+            excelData["Process 2 SERIAL NO"] = repairedProcess
+            excelData["Process 3 SERIAL NO"] = repairedProcess
+            # excelData["Process 4 SERIAL NO"] = repairedProcess
+            # excelData["Process 5 SERIAL NO"] = repairedProcess
+            # excelData["Process 6 SERIAL NO"] = repairedProcess
 
         if process5Status == "Repaired":
             repairedProcess = "RE PI"
@@ -3419,6 +3748,13 @@ def CompileCsv():
             excelData["Process 4 Actual Time"] = repairedProcess
             excelData["Process 4 NG Cause"] = repairedProcess
             excelData["Process 4 Repaired Action"] = repairedProcess
+
+            excelData["Process 1 SERIAL NO"] = repairedProcess
+            excelData["Process 2 SERIAL NO"] = repairedProcess
+            excelData["Process 3 SERIAL NO"] = repairedProcess
+            excelData["Process 4 SERIAL NO"] = repairedProcess
+            # excelData["Process 5 SERIAL NO"] = repairedProcess
+            # excelData["Process 6 SERIAL NO"] = repairedProcess
 
         if process6Status == "Repaired":
             repairedProcess = "REPAIRED AT PROCESS6"
@@ -3579,8 +3915,22 @@ def CompileCsv():
             excelData["Process 5 Actual Time"] = repairedProcess
             excelData["Process 5 NG Cause"] = repairedProcess
             excelData["Process 5 Repaired Action"] = repairedProcess
+
+            excelData["Process 1 SERIAL NO"] = repairedProcess
+            excelData["Process 2 SERIAL NO"] = repairedProcess
+            excelData["Process 3 SERIAL NO"] = repairedProcess
+            excelData["Process 4 SERIAL NO"] = repairedProcess
+            excelData["Process 5 SERIAL NO"] = repairedProcess
+            # excelData["Process 6 SERIAL NO"] = repairedProcess
         
     PiMachineManager.compiledFrame = pd.concat([PiMachineManager.compiledFrame, excelData], ignore_index=True)
+
+    # process1Status = ""
+    # process2Status = ""
+    # process3Status = ""
+    # process4Status = ""
+    # process5Status = ""
+    # process6Status = ""
 
 def ResetVariables():
     global dfVt1

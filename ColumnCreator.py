@@ -269,5 +269,12 @@ def createEmptyColumn():
             "Process 6 ST",
             "Process 6 Actual Time",
             "Process 6 NG Cause",
-            "Process 6 Repaired Action"
+            "Process 6 Repaired Action",
+
+            "Process 1 SERIAL NO",
+            "Process 2 SERIAL NO",
+            "Process 3 SERIAL NO",
+            "Process 4 SERIAL NO",
+            "Process 5 SERIAL NO",
+            "Process 6 SERIAL NO"
         ]
